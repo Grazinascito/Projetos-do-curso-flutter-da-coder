@@ -6,7 +6,7 @@ class Resposta extends StatelessWidget {
 
   final void Function() onSelect;
 
-  Resposta(this.texto, this.onSelect);
+  const Resposta(this.texto, this.onSelect);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class Resposta extends StatelessWidget {
       margin: EdgeInsets.fromLTRB(5, 0, 5, 0),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          onPrimary: Colors.black,
+          onPrimary: Colors.white,
           primary: Colors.red,
           textStyle: TextStyle(
           fontSize: 17,

@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:projeto_perguntas/respostas.dart';
+import 'package:projeto_perguntas/resultado.dart';
 import './questao.dart';
+import 'questionario.dart';
 
 main() {
   runApp(PerguntaApp());
@@ -26,6 +28,10 @@ class _PerguntaAppState extends State<PerguntaApp> {
 
   var _incremente = 0;
 
+    bool get temPerguntaSelecionada {
+    return _incremente < _perguntas.length;
+  }
+
   void _responder() {
     if(temPerguntaSelecionada){
 
@@ -35,53 +41,20 @@ class _PerguntaAppState extends State<PerguntaApp> {
     }
   }
 
-  bool get temPerguntaSelecionada {
-    return _incremente < _perguntas.length;
-  }
 
   @override
   Widget build(BuildContext context) {
-
-    List<String> respostas = temPerguntaSelecionada?
-     _perguntas[_incremente]["respostas"] as List<String> : [];
-
-    List<Widget> minhaListaWidget =
-        respostas.map((textResp) => Resposta(textResp, _responder)).toList();
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.red,
-          title: Text('Perguntas App', style: TextStyle(color: Colors.black)),
+          title: Text('Perguntas App', style: TextStyle(color: Colors.white)),
         ),
-        body: temPerguntaSelecionada? Column(
-          children: [
-            Questao(_perguntas[_incremente]["pergunta"]),
-            ...minhaListaWidget,
-          ],
-        ):
-        Container( 
-          child: Center(
-            child: Container(
-              width: 200,
-              height: 200,
-              decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              alignment: Alignment.center,
-
-              child: Text("Parabéns!!",
-              style: TextStyle(
-                color: Colors.white, 
-                fontWeight: FontWeight.bold,
-                fontSize: 24,
-              ),
-            ),
-          ),
-        ),
-        ),
+        body: temPerguntaSelecionada? Questionario(
+          perguntas: _perguntas, incremente: _incremente, responder: _responder
+          ) : Resultado(),
       ),
     );
   }
