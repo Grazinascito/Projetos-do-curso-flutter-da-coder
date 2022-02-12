@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
+import 'package:projeto_perguntas/respostas.dart';
 import './questao.dart';
 
 main() {
@@ -7,50 +8,79 @@ main() {
 }
 
 class _PerguntaAppState extends State<PerguntaApp> {
-  var _incremente = 0;
-
-  final List<String> perguntas = [
-    'Qual é a cor do sol',
-    'Quantos lados tem o quadrado',
-    'Ulala nanacita',
+  @override
+  final _perguntas = const [
+    {
+      "pergunta": "Qual é o meu campeão favorito no lol?",
+      "respostas": ["Morgana", "Zed", "Quinn", "Lee sin"]
+    },
+    {
+      "pergunta": "Qual é a minha cor favorita?",
+      "respostas": ["Rosa", "Preto", "Vermelho", "Cinza"]
+    },
+    {
+      "pergunta": "Qual é o meu estilo musical favorito?",
+      "respostas": ["R&B", "JAZZ", "HIP-HOP/RAP", "FUNK"]
+    },
   ];
 
+  var _incremente = 0;
+
   void _responder() {
-    if (_incremente < 0 || _incremente >= perguntas.length - 1) {
-      setState(() {
-        _incremente--;
-      });
-    } else {
-      setState(() {
-        _incremente++;
-      });
+    if(temPerguntaSelecionada){
+
+    setState(() {
+      _incremente++;
+    });
     }
+  }
+
+  bool get temPerguntaSelecionada {
+    return _incremente < _perguntas.length;
   }
 
   @override
   Widget build(BuildContext context) {
+
+    List<String> respostas = temPerguntaSelecionada?
+     _perguntas[_incremente]["respostas"] as List<String> : [];
+
+    List<Widget> minhaListaWidget =
+        respostas.map((textResp) => Resposta(textResp, _responder)).toList();
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Perguntas App'),
+          backgroundColor: Colors.red,
+          title: Text('Perguntas App', style: TextStyle(color: Colors.black)),
         ),
-        body: Column(
+        body: temPerguntaSelecionada? Column(
           children: [
-            Questao(perguntas[_incremente]),
-            ElevatedButton(
-              child: Text("Resposta 1"),
-              onPressed: _responder,
-            ),
-            ElevatedButton(
-              child: Text("Resposta 2"),
-              onPressed: _responder,
-            ),
-            ElevatedButton(
-              child: Text("Resposta 3"),
-              onPressed: _responder,
-            ),
+            Questao(_perguntas[_incremente]["pergunta"]),
+            ...minhaListaWidget,
           ],
+        ):
+        Container( 
+          child: Center(
+            child: Container(
+              width: 200,
+              height: 200,
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              alignment: Alignment.center,
+
+              child: Text("Parabéns!!",
+              style: TextStyle(
+                color: Colors.white, 
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+              ),
+            ),
+          ),
+        ),
         ),
       ),
     );

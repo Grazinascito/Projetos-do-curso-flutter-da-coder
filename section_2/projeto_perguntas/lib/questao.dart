@@ -1,7 +1,9 @@
+// ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 
 class Questao extends StatelessWidget {
-  final String texto;
+   
+  final texto;
   const Questao(this.texto);
 
   @override
