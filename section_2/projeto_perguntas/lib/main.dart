@@ -52,8 +52,13 @@ class _PerguntaAppState extends State<PerguntaApp> {
         _pontosTotais += pontos;
       });
     }
+  }
 
-    print(_pontosTotais);
+  void _resetarQuestionario() {
+    setState(() {
+      _incremente = 0;
+      _pontosTotais = 0;
+    });
   }
 
   @override
@@ -70,7 +75,7 @@ class _PerguntaAppState extends State<PerguntaApp> {
                 perguntas: _perguntas,
                 incremente: _incremente,
                 responder: _responder)
-            : Resultado(_pontosTotais),
+            : Resultado(_pontosTotais, _resetarQuestionario),
       ),
     );
   }
